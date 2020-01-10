@@ -6,7 +6,8 @@ public enum GamePosition {
     BIG_BLIND("BB"),
     LOWJACK("LJ"),
     HIGHJACK("HJ"),
-    CUTOFF("CO");
+    CUTOFF("CO"),
+    UNKNOWN("?");
 
     private String shortcut;
 
