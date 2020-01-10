@@ -129,7 +129,7 @@ public class Gui {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                rangePreviewLabel.setText(RangeResources.imagesToNames.get(currentRangePreviewImage));
+                rangePreviewLabel.setText(RangeResources.getImageName(currentRangePreviewImage));
                 if(rangePreviewLabel.getText() != null){
                     rangePreviewLabelPanel.setVisible(true);
                 }

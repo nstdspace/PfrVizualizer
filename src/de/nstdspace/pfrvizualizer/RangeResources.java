@@ -10,50 +10,85 @@ import static de.nstdspace.pfrvizualizer.gui.Gui.RANGE_PREVIEW_SIZE;
 
 public class RangeResources {
 
-    public static final Image EMPTY_RANGE = loadImage("", "empty_range", "png");
+    private static HashMap<String, InputStream> imageNamesToResourceStreams;
+    private static HashMap<Image, String> imagesToNames;
+    private static HashMap<String, Image> namesToImages;
 
-    // for debugging purposes only
-    public static HashMap<Image, String> imagesToNames;
-    public static HashMap<String, Image> namesToImages;
-
-    static {
+    public static void load(){
+        imageNamesToResourceStreams = new HashMap<>();
+        imagesToNames = new HashMap<>();
+        namesToImages = new HashMap<>();
         try {
-            loadDirectory("/RFI", "png");
-            loadDirectory("/VsOpen/VsOpenLimp", "png");
-            loadDirectory("/VsOpen/Vs2BBOpen", "png");
-            loadDirectory("/VsOpen/Vs2.5BBOpen", "png");
-            loadDirectory("/VsOpen/Vs3BBOpen", "png");
-            loadDirectory("/VsOpen/Vs4BBOpen", "png");
-            System.out.println(namesToImages);
+            loadResourceStream("", "empty_range", "png");
+            loadDirectoryStreams("/RFI", "png");
+            loadDirectoryStreams("/VsOpen/VsOpenLimp", "png");
+            loadDirectoryStreams("/VsOpen/Vs2BBOpen", "png");
+            loadDirectoryStreams("/VsOpen/Vs2.5BBOpen", "png");
+            loadDirectoryStreams("/VsOpen/Vs3BBOpen", "png");
+            loadDirectoryStreams("/VsOpen/Vs4BBOpen", "png");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if(!Main.ondemandMode){
+            for(String key : imageNamesToResourceStreams.keySet()){
+                loadAndMapImage(key);
+            }
+        }
+    }
+
+    public static String getImageName(Image currentRangePreviewImage) {
+        return imagesToNames.get(currentRangePreviewImage);
+    }
+
+    public static Image getImage(String imageName){
+        if(!namesToImages.containsKey(imageName)){
+            loadAndMapImage(imageName);
+        }
+        return namesToImages.get(imageName);
+    }
+
+    private static Image loadAndMapImage(String imageName) {
+        if(!imageNamesToResourceStreams.containsKey(imageName)){
+            throw new IllegalStateException("Image with name \"" + imageName + "\" not mapped!");
+        }
+        InputStream stream = imageNamesToResourceStreams.get(imageName);
+        Image image = loadImage(stream);
+        imagesToNames.put(image, imageName);
+        namesToImages.put(imageName, image);
+        return image;
     }
 
     // filesEnding currently there for splitting off files "actual name", works only if all files have equal ending
-    private static void loadDirectory(String directory, String filesEnding) throws IOException {
+    private static void loadDirectoryStreams(String directory, String filesEnding) throws IOException {
         InputStream stream = Main.class.getResourceAsStream(directory);
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         String line;
         while((line = reader.readLine()) != null){
-            loadImage(directory, line.split("\\." + filesEnding)[0], filesEnding);
+            String actualFileName = line.split("\\." + filesEnding)[0];
+            loadResourceStream(directory, actualFileName, filesEnding);
         }
     }
 
-    private static Image loadImage(String directory, String fileName, String fileEnding){
-        if(imagesToNames == null){
-            imagesToNames = new HashMap<>();
-            namesToImages = new HashMap<>();
-        }
+    private static void loadResourceStream(String directory, String actualFileName, String fileEnding) {
+        imageNamesToResourceStreams.put(actualFileName,
+                Main.class.getResourceAsStream(getResourceString(directory, actualFileName, fileEnding)));
+    }
+
+    private static String getResourceString(String directory, String fileName, String fileEnding){
+        return directory + "/" + fileName + "." + fileEnding;
+    }
+
+    private static Image loadImage(InputStream inputStream){
         try {
-            Image image = ImageIO.read(Main.class.getResourceAsStream(directory + "/" + fileName + "." + fileEnding))
-                    .getScaledInstance(RANGE_PREVIEW_SIZE, RANGE_PREVIEW_SIZE, BufferedImage.SCALE_SMOOTH);
-            imagesToNames.put(image, fileName);
-            namesToImages.put(fileName, image);
+            Image image = ImageIO.read(inputStream).getScaledInstance(RANGE_PREVIEW_SIZE, RANGE_PREVIEW_SIZE, BufferedImage.SCALE_SMOOTH);
             return image;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Image getEmptyRange() {
+        return getImage("empty_range");
     }
 }

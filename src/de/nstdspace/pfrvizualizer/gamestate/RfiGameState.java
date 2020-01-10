@@ -14,6 +14,6 @@ public class RfiGameState extends GameState {
     @Override
     public Image getRangeResource() {
         String amount = getHeroPosition() == GamePosition.SMALL_BLIND ? "3bb" : "2bb";
-        return RangeResources.namesToImages.get(getHeroPosition().getShortcut() + "-RFI" + amount);
+        return RangeResources.getImage(getHeroPosition().getShortcut() + "-RFI" + amount);
     }
 }

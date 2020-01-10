@@ -13,6 +13,6 @@ public class EmptyGameState extends GameState {
 
     @Override
     public Image getRangeResource() {
-        return RangeResources.EMPTY_RANGE;
+        return RangeResources.getEmptyRange();
     }
 }

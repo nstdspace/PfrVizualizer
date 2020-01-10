@@ -26,6 +26,6 @@ public class OpenGameState extends GameState {
         String ending = normalizedOpenAmount.equals("1") ? "OL" : normalizedOpenAmount + "BB-RFI";
         String fileName = getHeroPosition().getShortcut() + "-vs-" + getRfiPosition().getShortcut() + "-" + ending;
         System.out.println(fileName);
-        return RangeResources.namesToImages.get(fileName);
+        return RangeResources.getImage(fileName);
     }
 }

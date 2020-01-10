@@ -13,8 +13,11 @@ public class Main {
     private Gui gui;
     private boolean isStateBuilding = false;
 
+    public static boolean ondemandMode = false;
+
     public Main(){
         setNativeLookAndFeel();
+        RangeResources.load();
         gui = new Gui(this);
     }
 
@@ -30,10 +33,6 @@ public class Main {
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String... args){
-        new Main();
     }
 
     public void beginGameStateBuilding(GamePosition heroPosition) {
@@ -72,5 +71,16 @@ public class Main {
         currentBuilder.raise(position, raiseAmount);
         gui.setPlayerRaised(position, raiseAmount);
         gameStateChanged();
+    }
+
+    public static void main(String... args){
+        for(String arg : args){
+            if(arg.equals("odm")){
+                ondemandMode = true;
+            } else {
+                throw new IllegalArgumentException("Argument \"" + arg + "\" is not supported. Currently supported arguments: \n - odm: load resources on demand rather than all on startup");
+            }
+        }
+        new Main();
     }
 }
