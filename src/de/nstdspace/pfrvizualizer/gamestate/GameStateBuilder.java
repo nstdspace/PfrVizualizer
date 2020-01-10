@@ -22,33 +22,20 @@ public class GameStateBuilder {
     }
 
     public void raise(GamePosition position, float raiseAmount) {
-
+        if(currentGameState instanceof RfiGameState){
+            currentGameState = new OpenGameState(currentGameState.getHeroPosition(), position, raiseAmount);
+        }
     }
 
     public GameState getCurrentGameState() {
         return currentGameState;
     }
 
-    public GameStateDescriptor getCurrentDescriptor(){
-        return currentGameState.getDescriptor();
+    public Image getRangeResource() {
+        return currentGameState.getRangeResource();
     }
 
-    public enum GameStateDescriptor {
-        BU_RFI(BU_RFI_RANGE),
-        SB_RFI(SB_RFI_RANGE),
-        LJ_RFI(LJ_RFI_RANGE),
-        HJ_RFI(HJ_RFI_RANGE),
-        CO_RFI(CO_RFI_RANGE),
-        EMPTY(EMPTY_RANGE);
-
-        private Image rangeResourceName;
-
-        GameStateDescriptor(Image rangeImageResource){
-               this.rangeResourceName = rangeImageResource;
-        }
-
-        public Image getRangeResource() {
-            return rangeResourceName;
-        }
+    public String toShortString() {
+        return "short string " + currentGameState.toString();
     }
 }

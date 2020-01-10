@@ -1,6 +1,9 @@
 package de.nstdspace.pfrvizualizer.gamestate;
 
 import de.nstdspace.pfrvizualizer.GamePosition;
+import de.nstdspace.pfrvizualizer.RangeResources;
+
+import java.awt.*;
 
 public class EmptyGameState extends GameState {
 
@@ -9,7 +12,7 @@ public class EmptyGameState extends GameState {
     }
 
     @Override
-    public GameStateBuilder.GameStateDescriptor getDescriptor() {
-        return GameStateBuilder.GameStateDescriptor.EMPTY;
+    public Image getRangeResource() {
+        return RangeResources.EMPTY_RANGE;
     }
 }

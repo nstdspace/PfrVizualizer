@@ -66,16 +66,6 @@ public class PlayerPanel extends JPanel {
                     }
                 }
             }
-
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//                if(contains(e.getX(), e.getY())){
-//                    System.out.println("false exit!");
-//                    return;
-//                }
-//                super.mouseExited(e);
-//
-//            }
         });
     }
 
@@ -113,7 +103,7 @@ public class PlayerPanel extends JPanel {
                 super.mousePressed(e);
                 String raiseAmountString = ((JLabel) e.getSource()).getText();
                 float raiseAmount = raiseAmountString.equals("limp") ? 1 : Float.valueOf(raiseAmountString);
-                gui.getMainInstance().raiseFirstIn(getGamePosition(), raiseAmount);
+                gui.getMainInstance().raise(getGamePosition(), raiseAmount);
             }
         });
         return label;

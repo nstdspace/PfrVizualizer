@@ -2,7 +2,7 @@ package de.nstdspace.pfrvizualizer;
 
 public enum GamePosition {
     BUTTON("BU"),
-    SMALL_BLAND("SB"),
+    SMALL_BLIND("SB"),
     BIG_BLIND("BB"),
     LOWJACK("LJ"),
     HIGHJACK("HJ"),

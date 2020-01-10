@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 
 import static de.nstdspace.pfrvizualizer.Main.NUMBER_OF_PLAYERS;
@@ -131,7 +129,7 @@ public class Gui {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                rangePreviewLabel.setText(RangeResources.imageNames.get(currentRangePreviewImage));
+                rangePreviewLabel.setText(RangeResources.imagesToNames.get(currentRangePreviewImage));
                 if(rangePreviewLabel.getText() != null){
                     rangePreviewLabelPanel.setVisible(true);
                 }

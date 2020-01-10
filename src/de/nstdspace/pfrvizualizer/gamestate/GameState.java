@@ -2,6 +2,8 @@ package de.nstdspace.pfrvizualizer.gamestate;
 
 import de.nstdspace.pfrvizualizer.GamePosition;
 
+import java.awt.*;
+
 public abstract class GameState {
 
     private GamePosition involvedPositions[];
@@ -20,5 +22,5 @@ public abstract class GameState {
         return involvedPositions;
     }
 
-    public abstract GameStateBuilder.GameStateDescriptor getDescriptor();
+    public abstract Image getRangeResource();
 }

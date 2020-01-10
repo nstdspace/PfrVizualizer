@@ -1,6 +1,9 @@
 package de.nstdspace.pfrvizualizer.gamestate;
 
 import de.nstdspace.pfrvizualizer.GamePosition;
+import de.nstdspace.pfrvizualizer.RangeResources;
+
+import java.awt.*;
 
 public class RfiGameState extends GameState {
 
@@ -8,9 +11,9 @@ public class RfiGameState extends GameState {
         super(heroPosition);
     }
 
-
     @Override
-    public GameStateBuilder.GameStateDescriptor getDescriptor() {
-        return GameStateBuilder.GameStateDescriptor.valueOf(getHeroPosition().getShortcut() + "_RFI");
+    public Image getRangeResource() {
+        String amount = getHeroPosition() == GamePosition.SMALL_BLIND ? "3bb" : "2bb";
+        return RangeResources.namesToImages.get(getHeroPosition().getShortcut() + "-RFI" + amount);
     }
 }

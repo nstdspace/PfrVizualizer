@@ -2,7 +2,6 @@ package de.nstdspace.pfrvizualizer;
 
 import de.nstdspace.pfrvizualizer.gamestate.GameStateBuilder;
 import de.nstdspace.pfrvizualizer.gui.Gui;
-import sun.swing.SwingUtilities2;
 
 import javax.swing.*;
 
@@ -53,8 +52,8 @@ public class Main {
 
     public void gameStateChanged(){
         if(currentBuilder != null){
-            gui.setCurrentRangePreviewImage(currentBuilder.getCurrentDescriptor().getRangeResource());
-            gui.setInfo(currentBuilder.getCurrentDescriptor().toString());
+            gui.setCurrentRangePreviewImage(currentBuilder.getRangeResource());
+            gui.setInfo(currentBuilder.toShortString());
         } else {
             gui.setCurrentRangePreviewImage(null);
             gui.setInfo("<empty info>");
@@ -69,8 +68,9 @@ public class Main {
         gameStateChanged();
     }
 
-    public void raiseFirstIn(GamePosition position, float raiseAmount) {
+    public void raise(GamePosition position, float raiseAmount) {
         currentBuilder.raise(position, raiseAmount);
         gui.setPlayerRaised(position, raiseAmount);
+        gameStateChanged();
     }
 }
