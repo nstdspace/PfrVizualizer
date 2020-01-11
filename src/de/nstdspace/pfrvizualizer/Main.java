@@ -68,6 +68,8 @@ public class Main {
     }
 
     public void raise(GamePosition position, float raiseAmount) {
+        GamePosition nextPosition = currentBuilder.getLastActedPosition().next();
+        while(nextPosition != position)
         currentBuilder.raise(position, raiseAmount);
         gui.setPlayerRaised(position, raiseAmount);
         gameStateChanged();

@@ -12,6 +12,7 @@ import static de.nstdspace.pfrvizualizer.RangeResources.*;
 public class GameStateBuilder {
 
     private GameState currentGameState;
+    private GamePosition lastActedPosition;
 
     public GameStateBuilder(GamePosition heroPosition){
         if(heroPosition != GamePosition.BIG_BLIND){
@@ -19,12 +20,18 @@ public class GameStateBuilder {
         } else {
             currentGameState = new EmptyGameState(heroPosition);
         }
+        lastActedPosition = GamePosition.BIG_BLIND;
     }
 
     public void raise(GamePosition position, float raiseAmount) {
         if(currentGameState instanceof RfiGameState){
             currentGameState = new OpenGameState(currentGameState.getHeroPosition(), position, raiseAmount);
         }
+        lastActedPosition = position;
+    }
+
+    public GamePosition getLastActedPosition() {
+        return lastActedPosition;
     }
 
     public GameState getCurrentGameState() {

@@ -18,4 +18,16 @@ public enum GamePosition {
     public String getShortcut() {
         return shortcut;
     }
+
+    public GamePosition next() {
+        switch(this){
+            case BUTTON: return SMALL_BLIND;
+            case SMALL_BLIND: return BIG_BLIND;
+            case BIG_BLIND: return LOWJACK;
+            case LOWJACK: return HIGHJACK;
+            case HIGHJACK: return CUTOFF;
+            case CUTOFF: return BUTTON;
+            default: return UNKNOWN;
+        }
+    }
 }

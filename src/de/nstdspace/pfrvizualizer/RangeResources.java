@@ -4,6 +4,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static de.nstdspace.pfrvizualizer.gui.Gui.RANGE_PREVIEW_SIZE;
@@ -33,6 +37,16 @@ public class RangeResources {
             for(String key : imageNamesToResourceStreams.keySet()){
                 loadAndMapImage(key);
             }
+        }
+    }
+
+    private static Path getFolderPath(String folder) throws URISyntaxException, IOException {
+        URI uri = Main.class.getClassLoader().getResource(folder).toURI();
+        if(uri.getScheme().equals("jar")){
+            FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap(), null);
+            return fileSystem.getPath(folder);
+        } else {
+            return Paths.get(uri);
         }
     }
 
