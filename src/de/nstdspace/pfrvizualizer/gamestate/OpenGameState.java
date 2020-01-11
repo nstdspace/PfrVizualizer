@@ -22,10 +22,12 @@ public class OpenGameState extends GameState {
 
     @Override
     public Image getRangeResource() {
+        if(rfiPosition == getHeroPosition()){
+            return RangeResources.getImage("empty_range");
+        }
         String normalizedOpenAmount = openAmount == 2.5f ? String.valueOf(openAmount) : String.valueOf((int) openAmount);
         String ending = normalizedOpenAmount.equals("1") ? "OL" : normalizedOpenAmount + "BB-RFI";
         String fileName = getHeroPosition().getShortcut() + "-vs-" + getRfiPosition().getShortcut() + "-" + ending;
-        System.out.println(fileName);
         return RangeResources.getImage(fileName);
     }
 }

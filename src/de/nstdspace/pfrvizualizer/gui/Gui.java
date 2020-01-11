@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 
 import static de.nstdspace.pfrvizualizer.Main.NUMBER_OF_PLAYERS;
@@ -45,7 +46,14 @@ public class Gui {
     private PlayerPanel buttonPlayerPanel = null;
     public boolean buttonPlayerSelected = false;
 
+    private Robot robot;
+
     public Gui(Main mainInstance){
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
         this.mainInstance = mainInstance;
         loadResources();
 
@@ -74,6 +82,9 @@ public class Gui {
         resetButton.setBounds(0, 0, (int) resetButton.getPreferredSize().getWidth(), (int) resetButton.getPreferredSize().getHeight());
         resetButton.addActionListener((e) -> {
             mainInstance.resetStateBuilder();
+            for(PlayerPanel panel : playerPanels){
+                panel.setPlayerInGame();
+            }
         });
         tablePanel.add(resetButton);
 
@@ -89,9 +100,13 @@ public class Gui {
         frame.setVisible(true);
     }
 
-    public void setPlayerRaised(GamePosition position, float raiseAmount) {
+    public void setPlayerRaisedTo(GamePosition position, float raiseToAmount) {
         PlayerPanel panel = getPlayerPanelAt(position);
-        panel.setBet(panel.getBet() + raiseAmount);
+        panel.setBet(raiseToAmount);
+    }
+
+    public void setPlayerFolded(GamePosition nextPosition) {
+        getPlayerPanelAt(nextPosition).setPlayerFolded();
     }
 
     public PlayerPanel getPlayerPanelAt(GamePosition position){
@@ -139,6 +154,14 @@ public class Gui {
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 rangePreviewLabelPanel.setVisible(false);
+            }
+        });
+        rangePreviewPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                Color color = robot.getPixelColor(e.getXOnScreen(), e.getYOnScreen());
+                rangePreviewPanel.setToolTipText(RangeColorTooltipHelper.getTooltip(color));
             }
         });
         rangePreviewPanel.setPreferredSize(new Dimension(RANGE_PREVIEW_SIZE, RANGE_PREVIEW_SIZE));

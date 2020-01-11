@@ -67,11 +67,14 @@ public class Main {
         gameStateChanged();
     }
 
-    public void raise(GamePosition position, float raiseAmount) {
+    public void raiseTo(GamePosition position, float raiseAmount) {
         GamePosition nextPosition = currentBuilder.getLastActedPosition().next();
-        while(nextPosition != position)
-        currentBuilder.raise(position, raiseAmount);
-        gui.setPlayerRaised(position, raiseAmount);
+        while(nextPosition != position){
+            gui.setPlayerFolded(nextPosition);
+            nextPosition = nextPosition.next();
+        }
+        currentBuilder.raiseTo(position, raiseAmount);
+        gui.setPlayerRaisedTo(position, raiseAmount);
         gameStateChanged();
     }
 
